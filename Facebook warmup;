@@ -1,0 +1,16 @@
+
+with all_comments as (
+    SELECT * FROM users
+    LEFT JOIN user_comments USING (user_id)
+    WHERE created_at BETWEEN '2019-01-01' AND '2019-01-31'
+    GROUP BY 1
+),
+comment_count AS (
+    SELECT distinct(id), length(body) as bin_size
+    FROM all_comments 
+    GROUP BY 1
+)
+SELECT distinct(id), count(bin_size)
+FROM comment_count
+GROUP BY 1;
+
